@@ -1,0 +1,12 @@
+# Ignore build files.
+.dep
+obj_*
+*.eep
+*.elf
+*.hex
+*.lss
+*.map
+*.sym
+
+# Ignore vs code shit.
+*.DB*
