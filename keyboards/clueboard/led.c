@@ -5,7 +5,7 @@
 void led_set(uint8_t usb_led)
 {
 	DDRB |= (1<<4);
-	DDRB |= (1<<7);
+	//DDRB |= (1<<7);
 	
 	if ( usb_led & ( 1 << USB_LED_CAPS_LOCK ) )
 	{
@@ -18,10 +18,10 @@ void led_set(uint8_t usb_led)
 	
 	if ( usb_led & ( 1 << USB_LED_NUM_LOCK ) )
 	{
-		PORTB &= ~(1<<7);
+		//PORTB &= ~(1<<7);
 	}
 	else
 	{
-		PORTB |= (1<<7);
+		//PORTB |= (1<<7);
 	}
 }
