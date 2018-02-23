@@ -6,6 +6,7 @@
 #include "keycode.h"
 #include "action.h"
 #include "action_macro.h"
+#include "action_layer.h"
 #include "action_util.h"
 #include "report.h"
 #include "host.h"
