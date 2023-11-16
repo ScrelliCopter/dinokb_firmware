@@ -53,11 +53,11 @@ const macro_t* action_get_macro(keyrecord_t* record, uint8_t id, uint8_t opt)
   switch (id)
   {
   case DOUBLE_ZERO: return record->event.pressed
-		? MACRO(T(0), T(0), END)
-		: MACRO_NONE;
+    ? MACRO(T(0), T(0), END)
+    : MACRO_NONE;
   case GREGGO: return record->event.pressed
     ? MACRO( D(LSFT), T(SCLN), T(G), U(LSFT), T(R), T(E), T(G), T(G), T(O), D(LSFT), T(SCLN), END )
-		: MACRO_NONE;
-	default: return MACRO_NONE;
+    : MACRO_NONE;
+  default: return MACRO_NONE;
   }
 }
