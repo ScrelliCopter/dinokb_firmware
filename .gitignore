@@ -1,4 +1,4 @@
-# Ignore build files.
+# Ignore build files
 .dep
 obj_*
 *.eep
@@ -8,5 +8,8 @@ obj_*
 *.map
 *.sym
 
-# Ignore vs code shit.
+# Ignore vs code shit
 *.DB*
+
+# Ignore intellij shit
+**/.idea
