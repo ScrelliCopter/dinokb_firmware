@@ -48,15 +48,11 @@ TMK_DIR = ../../tmk_core
 TARGET_DIR = .
 
 # project specific files
-SRC =	matrix.c \
+KEYMAP ?= melty
+SRC =	keymap_$(KEYMAP).c \
+		clueboard_common.h \
 		clueboard.c \
-		led.c
-
-ifdef KEYMAP
-    SRC := keymap_$(KEYMAP).c $(SRC)
-else
-    SRC := keymap_melty.c $(SRC)
-endif
+		matrix.c
 
 CONFIG_H = config.h
 
