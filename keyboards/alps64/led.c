@@ -22,13 +22,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void led_set(uint8_t usb_led)
 {
-    if (usb_led & (1<<USB_LED_CAPS_LOCK)) {
-        // output high
-        DDRC |= (1<<5);
-        PORTC |= (1<<5);
-    } else {
-        // Hi-Z
-        DDRC &= ~(1<<5);
-        PORTC &= ~(1<<5);
-    }
+	if (usb_led & (1<<USB_LED_CAPS_LOCK)) {
+		// output high
+		DDRC |= (1<<5);
+		PORTC |= (1<<5);
+	} else {
+		// Hi-Z
+		DDRC &= ~(1<<5);
+		PORTC &= ~(1<<5);
+	}
 }
