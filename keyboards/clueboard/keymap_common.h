@@ -14,6 +14,7 @@
 #include "debug.h"
 #include "keymap.h"
 
+
 /* Clueboard matrix layout
  * ,-----------------------------------------------------------.  ,---.
  * | 00| 01| 02| 03| 04| 05| 06| 07| 50| 51| 52| 53| 54| 55| 56|  | 57|
@@ -59,5 +60,11 @@
     { KC_##k80, KC_##k81, KC_##k82, KC_##k83, KC_##k84, KC_##k85, KC_##k86, KC_NO    }, \
     { KC_##k90, KC_NO,    KC_##k92, KC_##k93, KC_##k94, KC_##k95, KC_##k96, KC_##k97 }  \
 }
+
+#ifdef KEYMAP_SECTION_ENABLE
+#  define KEYMAP_SECTION __attribute__((section(".keymap.keymaps")))
+#else
+#  define KEYMAP_SECTION PROGMEM
+#endif
 
 #endif

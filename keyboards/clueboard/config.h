@@ -13,11 +13,17 @@
 #define MATRIX_ROWS 10
 #define MATRIX_COLS 8
 
+#ifdef BACKLIGHT_ENABLE
+// number of backlight levels
+#  define BACKLIGHT_LEVELS 7
+#endif
+
+// set 0 if no debouncing needed
 #define DEBOUNCE 5
 
 // key combination for command
 #define IS_COMMAND() ( \
-    keyboard_report->mods == (MOD_BIT(KC_LSHIFT) | MOD_BIT(KC_RSHIFT)) \
+	keyboard_report->mods == (MOD_BIT(KC_LSHIFT) | MOD_BIT(KC_RSHIFT)) \
 )
 
 // Feature disable options

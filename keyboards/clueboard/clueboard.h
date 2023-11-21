@@ -1,13 +1,13 @@
-#ifndef CLUEBOARD_COMMON_H
-#define CLUEBOARD_COMMON_H
+#ifndef CLUEBOARD_H
+#define CLUEBOARD_H
 
 #include <stdint.h>
 
 enum
 {
-	CLUE_LED_ESCAPE = 1,
-	CLUE_LED_INSERT = 2,
-	CLUE_LED_ARROWS = 3
+	CLUE_LED_ESCAPE,
+	CLUE_LED_INSERT,
+	CLUE_LED_ARROWS
 };
 
 typedef uint8_t clue_led_state;
@@ -16,4 +16,4 @@ typedef uint8_t clue_led_state;
 
 void clue_led_set(clue_led_state state);
 
-#endif//CLUEBOARD_COMMON_H
+#endif//CLUEBOARD_H

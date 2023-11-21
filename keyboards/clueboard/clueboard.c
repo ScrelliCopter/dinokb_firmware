@@ -1,4 +1,4 @@
-#include "clueboard_common.h"
+#include "clueboard.h"
 #include "led.h"
 #include <stdint.h>
 #include <avr/io.h>
@@ -56,3 +56,8 @@ void led_init_ports(void)
 	CLUE_LED_INSERT_OFF;
 	CLUE_LED_ARROWS_OFF;
 }
+
+
+#ifdef BACKLIGHT_ENABLE
+__attribute__((weak)) void backlight_set(uint8_t level) {}
+#endif

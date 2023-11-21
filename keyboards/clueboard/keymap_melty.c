@@ -1,16 +1,17 @@
-#include "clueboard_common.h"
+#include "clueboard.h"
 #include "keymap_common.h"
+
 
 /////////////////////
 /// Layer definitions
 enum layer_id
 {
-	LAYER_BASE, // 0: Base layer
-	LAYER_FUNC, // 1: Function layer
+	LAYER_BASE,     // 0: Base layer
+	LAYER_FUNCTION, // 1: Function layer
 	NUM_LAYERS
 };
 
-const uint8_t PROGMEM keymaps[NUM_LAYERS][MATRIX_ROWS][MATRIX_COLS] =
+const uint8_t KEYMAP_SECTION keymaps[NUM_LAYERS][MATRIX_ROWS][MATRIX_COLS] =
 {
 	[LAYER_BASE] = KEYMAP(
 		FN1, 1,   2,   3,   4,   5,   6,   7,   8,   9,   0,   MINS,EQL, GRV, BSPC,     INS,  \
@@ -18,7 +19,7 @@ const uint8_t PROGMEM keymaps[NUM_LAYERS][MATRIX_ROWS][MATRIX_COLS] =
 		FN0, A,   S,   D,   F,   G,   H,   J,   K,   L,   SCLN,QUOT,NUHS,ENT,                 \
 		LSFT,NUBS,Z,   X,   C,   V,   B,   N,   M,   COMM, DOT,SLSH,RO,  RSFT,     UP,        \
 		LCTL,LGUI,LALT,MHEN,     SPC, SPC,                HENK,FN0, RGUI,RCTL,LEFT,DOWN,RGHT  ),
-	[LAYER_FUNC] = KEYMAP(
+	[LAYER_FUNCTION] = KEYMAP(
 		TRNS,F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, NO,  DEL,      FN2,  \
 		CAPS,PSCR,NO,  NO,  NO,  NO,  NO,  PGUP,HOME,NO,  NO,  UP,  NO,  NO,            NO,   \
 		TRNS,FN6, FN7, FN8, NO,  NO,  NO,  PGDN,END, NO,  LEFT,RGHT,NO,  NO,                  \
@@ -70,7 +71,7 @@ const macro_t* action_get_macro(keyrecord_t* record, uint8_t id, uint8_t opt)
 /// Function & action definitions
 enum function_id
 {
-	FN0_FN_LAYER,
+	FN0_FUNCTION_LAYER,
 
 	FN1_ESCAPE_GRAVE,
 	FN2_TOGGLE_GRAVE,
@@ -93,7 +94,7 @@ enum action_id
 
 const action_t PROGMEM fn_actions[] =
 {
-	[FN0_FN_LAYER] = ACTION_LAYER_MOMENTARY(LAYER_FUNC),
+	[FN0_FUNCTION_LAYER] = ACTION_LAYER_MOMENTARY(LAYER_FUNCTION),
 
 	[FN1_ESCAPE_GRAVE] = ACTION_FUNCTION(ACTION_ESCAPE_GRAVE),
 	[FN2_TOGGLE_GRAVE] = ACTION_FUNCTION(ACTION_TOGGLE_GRAVE),
@@ -122,23 +123,23 @@ void action_function(keyrecord_t* record, uint8_t id, uint8_t opt)
 
 		if (record->event.pressed)
 		{
-			if (layer_state & (1 << LAYER_FUNC))
+			if (layer_state & (1 << LAYER_FUNCTION))
 			{
-				keyPressed = toggleGrv ? KC_ESC : KC_GRV;
+				keyPressed = toggleGrv ? KC_ESCAPE : KC_GRAVE;
 			}
 			else
 			{
 				if (toggleGrv)
 				{
-					keyPressed = toggleGrv ? KC_GRV : KC_ESC;
+					keyPressed = toggleGrv ? KC_GRAVE : KC_ESCAPE;
 				}
 				else
 				{
 					const uint8_t modState = get_mods();
 					const uint8_t shiftState =
-						 (modState & (MOD_BIT(KC_LSFT) | MOD_BIT(KC_RSFT))) &&
-						!(modState & (MOD_BIT(KC_LCTL) | MOD_BIT(KC_RCTL)));
-					keyPressed = shiftState ? KC_GRV : KC_ESC;
+						 (modState & (MOD_BIT(KC_LSHIFT) | MOD_BIT(KC_RSHIFT))) &&
+						!(modState & (MOD_BIT(KC_LCTRL)  | MOD_BIT(KC_RCTRL)));
+					keyPressed = shiftState ? KC_GRAVE : KC_ESCAPE;
 				}
 			}
 
