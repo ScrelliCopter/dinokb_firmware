@@ -16,8 +16,7 @@ enum
 {
 	LAYER_BASE,     // Layer 0: Default Layer
 	LAYER_FUNCTION, // Layer 1: HHKB mode (HHKB Fn)
-	LAYER_NUMPAD,   // Layer 2: numpad
-	LAYER_MACROS,   // Layer 3: macros
+	LAYER_NUMPAD,   // Layer 2: foobar + numpad
 
 	NUM_LAYERS
 };
@@ -41,13 +40,7 @@ const uint8_t keymaps[NUM_LAYERS][MATRIX_ROWS][MATRIX_COLS] KEYMAP_SECTION =
 		NO,  NO,  NO,  NO,  NO,  NO,  NO,  P7,  P8,  P9,  PPLS,  NO,  NO,           \
 		TRNS,FN9, FN10,FN8, NO,  NO,  NO,  P4,  P5,  P6,  NO,  NO,  NO,  NO,        \
 		TRNS,FN5, FN7, FN6, NO,  NO,  NO,  P1,  P2,  P3,  PENT,TRNS,NO,  TRNS,      \
-		NO,  TRNS,TRNS,TRNS,TRNS,     NO,       CALC,P0,  PDOT,FN3, NO,  NO,  NO    ),
-	[LAYER_MACROS] = KEYMAP_JP(
-		NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,   \
-		NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,             \
-		TRNS,NO,  NO,  NO,  NO,  FN11,NO,  NO,  FN12,FN13,FN14,NO,  NO,  NO,        \
-		TRNS,NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  TRNS,NO,  TRNS,      \
-		NO,  TRNS,TRNS,TRNS,TRNS,     NO,       NO,  TRNS,TRNS,TRNS,NO,  NO,  NO    )
+		NO,  TRNS,TRNS,TRNS,TRNS,     NO,       CALC,P0,  PDOT,FN3, NO,  NO,  NO    )
 };
 
 
@@ -62,12 +55,7 @@ enum macro_id
 	MACRO_FOOBAR_PLAY,
 	MACRO_FOOBAR_VOLUMEUP,
 	MACRO_FOOBAR_VOLUMEDOWN,
-	MACRO_FOOBAR_STOP,
-
-	MACRO_MEMES_GREGGO,
-	MACRO_MEMES_LIKE,
-	MACRO_MEMES_THIS,
-	MACRO_MEMES_THAT
+	MACRO_FOOBAR_STOP
 };
 
 const macro_t* action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
@@ -83,15 +71,6 @@ const macro_t* action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 	case MACRO_FOOBAR_VOLUMEDOWN: return record->event.pressed ? MACRO(D(RCTL), T(INS),  U(RCTL), END) : MACRO_NONE;
 	case MACRO_FOOBAR_STOP:       return record->event.pressed ? MACRO(D(RCTL), T(HOME), U(RCTL), END) : MACRO_NONE;
 
-	case MACRO_MEMES_GREGGO: return record->event.pressed
-		? MACRO(D(LSFT), T(SCLN), U(LSFT), T(G), T(R), T(E), T(G), T(G), T(O), D(LSFT), T(SCLN), END) : MACRO_NONE;
-	case MACRO_MEMES_LIKE: return record->event.pressed
-		? MACRO(D(LSFT), T(L), U(LSFT), T(I), T(K), T(E), T(ENT), END) : MACRO_NONE;
-	case MACRO_MEMES_THIS: return record->event.pressed
-		? MACRO(D(LSFT), T(T), U(LSFT), T(H), T(I), T(S), T(ENT), END) : MACRO_NONE;
-	case MACRO_MEMES_THAT: return record->event.pressed
-		? MACRO(D(LSFT), T(T), U(LSFT), T(H), T(A), T(T), T(ENT), END) : MACRO_NONE;
-
 	default: return MACRO_NONE;
 	}
 }
@@ -103,7 +82,6 @@ enum function_id
 {
 	FN0_LAYER_FUNCTION = 0,
 	FN1_LAYER_NUMPAD   = 1,
-	FN2_LAYER_MACROS   = 2,
 
 	FN3_MACRO_DOUBLEZERO = 3,
 
@@ -114,11 +92,6 @@ enum function_id
 	FN9_FOOBAR_VOLUMEDOWN = 9,
 	FN10_FOOBAR_STOP      = 10,
 
-	FN11_MEMES_GREGGO = 11,
-	FN12_MEMES_LIKE   = 12,
-	FN13_MEMES_THIS   = 13,
-	FN14_MEMES_THAT   = 14,
-
 	NUM_FUNCTIONS
 };
 
@@ -126,7 +99,6 @@ const action_t fn_actions[NUM_FUNCTIONS] ACTION_SECTION =
 {
 	[FN0_LAYER_FUNCTION] = ACTION_LAYER_MOMENTARY(LAYER_FUNCTION),
 	[FN1_LAYER_NUMPAD]   = ACTION_LAYER_MOMENTARY(LAYER_NUMPAD),
-	[FN2_LAYER_MACROS]   = ACTION_LAYER_MOMENTARY(LAYER_MACROS),
 
 	[FN3_MACRO_DOUBLEZERO] = ACTION_MACRO(MACRO_DOUBLEZERO),
 
@@ -135,10 +107,5 @@ const action_t fn_actions[NUM_FUNCTIONS] ACTION_SECTION =
 	[FN7_FOOBAR_PLAY]       = ACTION_MACRO(MACRO_FOOBAR_PLAY),
 	[FN8_FOOBAR_VOLUMEUP]   = ACTION_MACRO(MACRO_FOOBAR_VOLUMEUP),
 	[FN9_FOOBAR_VOLUMEDOWN] = ACTION_MACRO(MACRO_FOOBAR_VOLUMEDOWN),
-	[FN10_FOOBAR_STOP]      = ACTION_MACRO(MACRO_FOOBAR_STOP),
-
-	[FN11_MEMES_GREGGO] = ACTION_MACRO(MACRO_MEMES_GREGGO),
-	[FN12_MEMES_LIKE]   = ACTION_MACRO(MACRO_MEMES_LIKE),
-	[FN13_MEMES_THIS]   = ACTION_MACRO(MACRO_MEMES_THIS),
-	[FN14_MEMES_THAT]   = ACTION_MACRO(MACRO_MEMES_THAT)
+	[FN10_FOOBAR_STOP]      = ACTION_MACRO(MACRO_FOOBAR_STOP)
 };
