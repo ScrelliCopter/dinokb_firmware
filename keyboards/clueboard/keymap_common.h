@@ -61,6 +61,25 @@
     { KC_##k90, KC_NO,    KC_##k92, KC_##k93, KC_##k94, KC_##k95, KC_##k96, KC_##k97 }  \
 }
 
+#define KEYMAP_ANSI( \
+    k00, k01, k02, k03, k04, k05, k06, k07, k50, k51, k52, k53, k54, k56,      k57, \
+    k10, k11, k12, k13, k14, k15, k16, k17, k60, k61, k62, k63, k64, k65,      k67, \
+    k20, k21, k22, k23, k24, k25, k26, k27, k70, k71, k72, k73, k75,                \
+    k30, k32, k33, k34, k35, k36, k37, k80, k81, k82, k83,      k85,      k86,      \
+    k40, k41, k42,           k45, k46,                k92, k93, k94, k95, k96, k97  \
+) { \
+    { KC_##k00, KC_##k01, KC_##k02, KC_##k03, KC_##k04, KC_##k05, KC_##k06, KC_##k07 }, \
+    { KC_##k10, KC_##k11, KC_##k12, KC_##k13, KC_##k14, KC_##k15, KC_##k16, KC_##k17 }, \
+    { KC_##k20, KC_##k21, KC_##k22, KC_##k23, KC_##k24, KC_##k25, KC_##k26, KC_##k27 }, \
+    { KC_##k30, KC_NO,    KC_##k32, KC_##k33, KC_##k34, KC_##k35, KC_##k36, KC_##k37 }, \
+    { KC_##k40, KC_##k41, KC_##k42, KC_NO,    KC_NO,    KC_##k45, KC_##k46, KC_NO    }, \
+    { KC_##k50, KC_##k51, KC_##k52, KC_##k53, KC_##k54, KC_NO,    KC_##k56, KC_##k57 }, \
+    { KC_##k60, KC_##k61, KC_##k62, KC_##k63, KC_##k64, KC_##k65, KC_NO,    KC_##k67 }, \
+    { KC_##k70, KC_##k71, KC_##k72, KC_##k73, KC_NO,    KC_##k75, KC_NO,    KC_NO    }, \
+    { KC_##k80, KC_##k81, KC_##k82, KC_##k83, KC_NO,    KC_##k85, KC_##k86, KC_NO    }, \
+    { KC_NO,    KC_NO,    KC_##k92, KC_##k93, KC_##k94, KC_##k95, KC_##k96, KC_##k97 }  \
+}
+
 #ifdef KEYMAP_SECTION_ENABLE
 #  define KEYMAP_SECTION __attribute__((section(".keymap.keymaps")))
 #else
