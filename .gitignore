@@ -13,3 +13,6 @@ obj_*
 
 # Ignore intellij shit
 **/.idea
+
+# Ignore macos shit
+.DS_Store
