@@ -1,3 +1,5 @@
+/* grandpad - (c) a dinosaur 2017 */
+
 #ifndef GRANDPAD_H
 #define GRANDPAD_H
 

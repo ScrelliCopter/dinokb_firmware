@@ -1,3 +1,5 @@
+/* grandpad - (c) a dinosaur 2017 */
+
 #include "grandpad.h"
 
 // Layers
