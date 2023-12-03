@@ -1,3 +1,22 @@
+# Keymap file
+KEYMAP ?= default
+
+# Target file name (without extension)
+TARGET ?= grandpad_$(KEYMAP)
+
+# Path to tmk core files
+TMK_DIR = ../../tmk_core
+
+# Directory keyboard dependent files
+TARGET_DIR = .
+
+# Project source files
+SRC =	keymap_$(KEYMAP).c \
+		matrix.c \
+		led.c \
+		light_ws2812.c
+
+CONFIG_H = config.h
 
 
 # MCU name
@@ -20,7 +39,7 @@ F_CPU = 16000000
 #
 # LUFA specific
 #
-# Target architecture (see library "Board Types" documentation).
+# Target architecture (see library "Board Types" documentation)
 ARCH = AVR8
 
 # Input clock frequency.
@@ -46,21 +65,27 @@ OPT_DEFS += -DINTERRUPT_CONTROL_ENDPOINT
 #   Atmel DFU loader 4096
 #   LUFA bootloader  4096
 #   USBaspLoader     2048
-OPT_DEFS += -DBOOTLOADER_SIZE=4096
+BOOTLOADER_SIZE = 4096
+OPT_DEFS += -DBOOTLOADER_SIZE=$(BOOTLOADER_SIZE)
 
 
 # Build Options
-#   comment out to disable the options.
-#
-BOOTMAGIC_ENABLE ?= no	# Virtual DIP switch configuration(+1000)
+#   comment out to disable options
+#BOOTMAGIC_ENABLE ?= yes	# Virtual DIP switch configuration(+1000)
 MOUSEKEY_ENABLE ?= yes	# Mouse keys(+4700)
 EXTRAKEY_ENABLE ?= yes	# Audio control and System control(+450)
 CONSOLE_ENABLE ?= yes	# Console for debug(+400)
-COMMAND_ENABLE ?= no	# Commands for debug and configuration
-RGBLIGHT_ENABLE ?= yes	# For that sick WS2811 support
+#COMMAND_ENABLE ?= yes	# Commands for debug and configuration
+#NKRO_ENABLE ?= yes		# USB N-key Rollover
 
-#NKRO_ENABLE = yes	# USB Nkey Rollover - not yet supported in LUFA
 
-#ifndef QUANTUM_DIR
-#	include ../../../Makefile
-#endif
+# Optimize size but this may cause error "relocation truncated to fit"
+#EXTRALDFLAGS = -Wl,--relax
+
+# Search Path
+VPATH += $(TARGET_DIR)
+VPATH += $(TMK_DIR)
+
+include $(TMK_DIR)/protocol/lufa.mk
+include $(TMK_DIR)/common.mk
+include $(TMK_DIR)/rules.mk

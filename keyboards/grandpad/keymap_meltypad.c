@@ -1,44 +1,60 @@
-/* grandpad - (c) a dinosaur 2017 */
+/* keymap_meltypad.c - grandpad - (c) a dinosaur 2017, 2023 */
 
-#include "grandpad.h"
+#include "keymap_common.h"
+#include "light_ws2812.h"
+#include "led.h"
 
-#define BASE 0
-#define HOLD 1
 
-const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] =
+/////////////////////
+/// Layer definitions
+enum layer_id
 {
-	[BASE] = KEYMAP_K17 ( \
-		KC_FN0, KC_PSLS,KC_PAST,KC_PMNS, \
-		KC_P7,  KC_P8,  KC_P9,  KC_PPLS, \
-		KC_P4,  KC_P5,  KC_P6,  /**/     \
-		KC_P1,  KC_P2,  KC_P3,  /**/     \
-		KC_P0,  /**/    KC_PDOT,KC_PENT  ),
+	LAYER_BASE,      // Layer 0: Base layer
+	LAYER_FUNCTION,  // Layer 1: Function layer
+
+	NUM_LAYERS
+};
+
+const uint8_t keymaps[NUM_LAYERS][MATRIX_ROWS][MATRIX_COLS] KEYMAP_SECTION =
+{
+	[LAYER_BASE] = KEYMAP_K17(
+		FN0, PSLS,PAST,PMNS,
+		P7,  P8,  P9,  PPLS,
+		P4,  P5,  P6,  /**/
+		P1,  P2,  P3,  /**/
+		P0,  /**/ PDOT,PENT),
 		
-	[HOLD] = KEYMAP_K17 ( \
-		KC_TRNS,KC_ESC, KC_TAB, KC_BSPC, \
-		RESET,  KC_NO,  KC_NO,  KC_NO,   \
-		KC_NO,  KC_NO,  KC_NO,  /**/     \
-		KC_NO,  KC_NO,  KC_NO,  /**/     \
-		KC_NO,  /**/    KC_NO,  KC_NO    ),
+	[LAYER_FUNCTION] = KEYMAP_K17(
+		TRNS,ESC, TAB, BSPC,
+		BTLD,NO,  NO,  NO,
+		NO,  NO,  NO,  /**/
+		NO,  NO,  NO,  /**/
+		NO,  /**/ NO,  NO  )
 };
 
-const uint16_t PROGMEM fn_actions[] =
+
+/////////////////////////////////
+/// Function & action definitions
+enum function_id
 {
-	[0] = ACTION_LAYER_TAP_KEY(1, KC_NLCK)
+	FN0_LAYER_FUNCTION,
+
+	NUM_FUNCTIONS
 };
 
-void led_set_user(uint8_t usb_led)
+const action_t PROGMEM fn_actions[NUM_FUNCTIONS] ACTION_SECTION =
 {
-	ledState = usb_led;
+	[FN0_LAYER_FUNCTION] = ACTION_LAYER_TAP_KEY(LAYER_FUNCTION, KC_NUMLOCK)
+};
 
-	uint8_t dat[] =
-	{
-		( usb_led & ( 1 << USB_LED_CAPS_LOCK ) )
-			? 0x2F : 0x00,
-		( usb_led & ( 1 << USB_LED_NUM_LOCK ) )
-			? 0x2F : 0x00,
-		(usb_led & ( 1 << USB_LED_SCROLL_LOCK ) )
-			? 0x2F : 0x00
-	};
-	ws2812_setleds ( (LED_TYPE*)&dat, 1 );
+
+////////////////////
+/// RGB LED handling
+void led_set_user(uint8_t state)
+{
+	ws2812_setleds(&(struct cRGB){
+		.r = state & (1 << USB_LED_CAPS_LOCK)   ? 0x2F : 0x00,
+		.g = state & (1 << USB_LED_NUM_LOCK)    ? 0x2F : 0x00,
+		.b = state & (1 << USB_LED_SCROLL_LOCK) ? 0x2F : 0x00
+	}, 1);
 }

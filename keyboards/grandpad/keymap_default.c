@@ -1,60 +1,72 @@
-/* grandpad - (c) a dinosaur 2017 */
+/* keymap_default.c - grandpad - (c) a dinosaur 2017, 2023 */
 
-#include "grandpad.h"
+#include "keymap_common.h"
+#include "config.h"
 
-#define L_BS 0
-#define L_FN 1
 
-#define M_D0 0
-#define M_T0 1
+/////////////////////
+/// Layer definitions
+enum layer_id
+{
+	LAYER_BASE,      // Layer 0: Base layer
+	LAYER_FUNCTION,  // Layer 1: Function layer
 
-const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-	[L_BS] = KEYMAP ( \
-		KC_ESC, KC_TAB, KC_PEQL,KC_BSPC, \
-		KC_NLCK,KC_PSLS,KC_PAST,KC_PMNS, \
-		KC_P7,  KC_P8,  KC_P9,  KC_PPLS, \
-		KC_P4,  KC_P5,  KC_P6,  KC_FN0,  \
-		KC_P1,  KC_P2,  KC_P3,  KC_PEQL, \
-		KC_P0,  KC_FN1, KC_PDOT,KC_PENT  ),
-
-	[L_FN] = KEYMAP ( \
-		KC_NO,  KC_NO,  KC_NO,  KC_NO,   \
-		RESET,  KC_NO,  KC_NO,  KC_NO,   \
-		KC_LBRC,KC_RBRC,KC_NO,  KC_NO,   \
-		KC_NO,  KC_NO,  KC_NO,  KC_TRNS, \
-		KC_NO,  KC_NO,  KC_NO,  KC_NO,   \
-		KC_NO,  KC_FN2, KC_NO,  KC_NO    ),
+	NUM_LAYERS
 };
 
-const uint16_t PROGMEM fn_actions[] = {
-	[0] = ACTION_LAYER_MOMENTARY(L_FN),
-	[1] = ACTION_MACRO(M_D0),
-	[2] = ACTION_MACRO(M_T0)
+const uint8_t keymaps[NUM_LAYERS][MATRIX_ROWS][MATRIX_COLS] KEYMAP_SECTION =
+{
+	[LAYER_BASE] = KEYMAP(
+		ESC, TAB, PEQL,BSPC,
+		NLCK,PSLS,PAST,PMNS,
+		P7,  P8,  P9,  PPLS,
+		P4,  P5,  P6,  PEQL,
+		P1,  P2,  P3,  PEQL,
+		P0,  FN1, PDOT,PENT),
+	[LAYER_FUNCTION] = KEYMAP(
+		NO,  NO,  NO,  NO,
+		BTLD,NO,  NO,  NO,
+		LBRC,RBRC,NO,  NO,
+		NO,  NO,  NO,  NO,
+		NO,  NO,  NO,  NO,
+		NO,  FN2, NO,  NO  )
+};
+
+
+////////////////////
+/// Macro defintions
+enum macro_id
+{
+	MACRO_DOUBLEZERO,
+	MACRO_TRIPLEZERO
 };
 
 const macro_t* action_get_macro(keyrecord_t* record, uint8_t id, uint8_t opt)
 {
-	if (record->event.pressed) {
-		switch (id) {
-			case M_D0:
-				return MACRO(T(P0), T(P0), END);
-			case M_T0:
-				return MACRO(T(P0), T(P0), T(P0), END);
-				
-			default:
-				break;
-		}
+	switch (id)
+	{
+	case MACRO_DOUBLEZERO: return record->event.pressed ? MACRO(T(P0), T(P0), END) : MACRO_NONE;
+	case MACRO_TRIPLEZERO: return record->event.pressed ? MACRO(T(P0), T(P0), T(P0), END) : MACRO_NONE;
+	default: return MACRO_NONE;
 	}
-	
-	return MACRO_NONE;
 }
 
-void led_set_user(uint8_t usb_led)
+
+/////////////////////////////////
+/// Function & action definitions
+enum function_id
 {
-	uint8_t dat[] = {
-		(usb_led & (1 << USB_LED_CAPS_LOCK))   ? 0x2F : 0x00,
-		(usb_led & (1 << USB_LED_NUM_LOCK))    ? 0x2F : 0x00,
-		(usb_led & (1 << USB_LED_SCROLL_LOCK)) ? 0x2F : 0x00
-	};
-	ws2812_setleds((LED_TYPE*)&dat, 1);
-}
+	FN0_LAYER_FUNCTION,
+
+	FN1_MACRO_DOUBLEZERO,
+	FN2_MACRO_TRIPLEZERO,
+
+	NUM_FUNCTIONS
+};
+
+const action_t fn_actions[NUM_FUNCTIONS] ACTION_SECTION =
+{
+	[FN0_LAYER_FUNCTION]   = ACTION_LAYER_MOMENTARY(LAYER_FUNCTION),
+	[FN1_MACRO_DOUBLEZERO] = ACTION_MACRO(FN1_MACRO_DOUBLEZERO),
+	[FN2_MACRO_TRIPLEZERO] = ACTION_MACRO(FN2_MACRO_TRIPLEZERO)
+};
