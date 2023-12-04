@@ -1,8 +1,7 @@
-/* keymap_meltypad.c - grandpad - (c) a dinosaur 2017, 2023 */
+/* keymap_npkc.c - grandpad - (c) a dinosaur 2017, 2023 */
 
 #include "keymap_common.h"
 #include "light_ws2812.h"
-#include "led.h"
 
 
 /////////////////////
@@ -26,10 +25,10 @@ const uint8_t keymaps[NUM_LAYERS][MATRIX_ROWS][MATRIX_COLS] KEYMAP_SECTION =
 		
 	[LAYER_FUNCTION] = KEYMAP_K17(
 		TRNS,ESC, TAB, BSPC,
-		BTLD,NO,  NO,  NO,
+		NO,  NO,  NO,  NO,
 		NO,  NO,  NO,  /**/
 		NO,  NO,  NO,  /**/
-		NO,  /**/ NO,  NO  )
+		NO,  /**/ BTLD,NO  )
 };
 
 
@@ -50,11 +49,4 @@ const action_t PROGMEM fn_actions[NUM_FUNCTIONS] ACTION_SECTION =
 
 ////////////////////
 /// RGB LED handling
-void led_set_user(uint8_t state)
-{
-	ws2812_setleds(&(struct cRGB){
-		.r = state & (1 << USB_LED_CAPS_LOCK)   ? 0x2F : 0x00,
-		.g = state & (1 << USB_LED_NUM_LOCK)    ? 0x2F : 0x00,
-		.b = state & (1 << USB_LED_SCROLL_LOCK) ? 0x2F : 0x00
-	}, 1);
-}
+struct cRGB led_rgb_numlock_on = { 6, 38, 21 };
