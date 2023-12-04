@@ -8,6 +8,7 @@
 #include "action.h"
 #include "action_code.h"
 #include "action_macro.h"
+#include "action_util.h"
 
 // Full grid layout
 #define KEYMAP( \
