@@ -139,6 +139,7 @@ void keypad_function(keyrecord_t* record, uint8_t id)
 
 		if (IS_KEY(key) || macro != MACRO_NONE)
 		{
+			//FIXME: this could probably be smarter
 			if (kp_action_nlcktoggle || (!real_numlock && virt_numlock))
 			{
 				if (!kp_action_nlcktoggle)
