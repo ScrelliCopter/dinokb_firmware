@@ -38,8 +38,11 @@
 # To rebuild project do "make clean" then "make all".
 #----------------------------------------------------------------------------
 
-# Target file name (without extension).
-TARGET = bleach60_lufa
+# Keymap file
+KEYMAP ?= default
+
+# Target file name (without extension)
+TARGET ?= bleach60
 
 # Directory common source filess exist
 TMK_DIR = ../../tmk_core
@@ -48,15 +51,9 @@ TMK_DIR = ../../tmk_core
 TARGET_DIR = .
 
 # project specific files
-SRC =	matrix.c \
-		bleach60.c \
+SRC =	keymap_$(KEYMAP).c \
+		matrix.c \
 		led.c
-
-ifdef KEYMAP
-    SRC := keymap_$(KEYMAP).c $(SRC)
-else
-    SRC := keymap_default.c $(SRC)
-endif
 
 CONFIG_H = config.h
 
