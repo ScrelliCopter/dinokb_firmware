@@ -23,6 +23,7 @@
 #define RXLED_PIN  0
 
 // Backlight pins
+#ifdef BACKLIGHT_ENABLE
 #define BACKLIGHT_LED_1_PORT D
 #define BACKLIGHT_LED_1_PIN  0
 #define BACKLIGHT_LED_2_PORT B
@@ -30,13 +31,14 @@
 #define BACKLIGHT_LED_3_PORT B
 #define BACKLIGHT_LED_3_PIN  6
 #define BACKLIGHT_LEVELS 3
+#endif
 
 // RGB underlighting
-/*
+#ifdef UNDERGLOW_ENABLE
 #define RGB_DI_PORT B
-#define RGB_DI_PIN  4
+#define RGB_DI_PIN  2
 #define RGBLED_NUM  9
-*/
+#endif
 
 // Feature disable options
 // These options are also useful to firmware size reduction.

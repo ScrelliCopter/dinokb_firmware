@@ -1,6 +1,6 @@
 /* led.c - pain27 - (C) 2023 a dinosaur */
 
-//#include "light_ws2812.h"
+#include "rgb_anim.h"
 #include "led.h"
 #include <stdint.h>
 #include <avr/io.h>
@@ -17,24 +17,12 @@ void hook_early_init(void)
 	// Setup LED pins as outputs
 	SETUP_LED_OUTPUT(TXLED_PORT, TXLED_PIN, HIGH);
 	SETUP_LED_OUTPUT(RXLED_PORT, RXLED_PIN, HIGH);
+#ifdef BACKLIGHT_ENABLE
 	SETUP_LED_OUTPUT(BACKLIGHT_LED_1_PORT, BACKLIGHT_LED_1_PIN, LOW);
 	SETUP_LED_OUTPUT(BACKLIGHT_LED_2_PORT, BACKLIGHT_LED_2_PIN, LOW);
 	SETUP_LED_OUTPUT(BACKLIGHT_LED_3_PORT, BACKLIGHT_LED_3_PIN, LOW);
+#endif
 }
-
-/*
-void hook_late_init(void)
-{
-	struct cRGB test[RGBLED_NUM];
-	for (uint8_t i = 0; i < RGBLED_NUM; ++i)
-		test[i] = (struct cRGB){
-			(i * 10) & 0xFF,
-			((i + 1) * 10) & 0xFF,
-			((i + 2) * 10) & 0xFF
-		};
-	ws2812_setleds(test, RGBLED_NUM);
-}
-*/
 
 void led_set(uint8_t state)
 {
@@ -42,6 +30,14 @@ void led_set(uint8_t state)
 		? SET_LED_LOW(RXLED_PORT, RXLED_PIN) : SET_LED_HIGH(RXLED_PORT, RXLED_PIN);
 	state & _BV(USB_LED_SCROLL_LOCK)
 		? SET_LED_LOW(TXLED_PORT, TXLED_PIN) : SET_LED_HIGH(TXLED_PORT, TXLED_PIN);
+
+#ifdef UNDERGLOW_ENABLE
+	rgb_set(0, state & _BV(USB_LED_CAPS_LOCK)
+		? (uint8_t[3]){ 0x2F, 0x0F, 0x8 } : (uint8_t[3]){ 0, 0, 0 });
+	rgb_set(1, state & _BV(USB_LED_SCROLL_LOCK)
+		? (uint8_t[3]){ 0x8, 0x2F, 0 } : (uint8_t[3]){ 0, 0, 0 });
+	rgb_update(2);
+#endif
 }
 
 #ifdef BACKLIGHT_ENABLE

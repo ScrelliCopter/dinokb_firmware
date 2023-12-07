@@ -14,7 +14,6 @@ TARGET_DIR = .
 SRC =	keymap_$(KEYMAP).c \
 		matrix.c \
 		led.c
-		#light_ws2812.c
 
 CONFIG_H = config.h
 
@@ -79,10 +78,19 @@ BOOTMAGIC_ENABLE = yes	# Virtual DIP switch configuration(+1000)
 #SLEEP_LED_ENABLE = yes	# Breathing sleep LED during USB suspend
 #NKRO_ENABLE = yes		# USB Nkey Rollover
 BACKLIGHT_ENABLE = yes	# Enable keyboard backlight functionality
+UNDERGLOW_ENABLE = yes	# Enable keyboard RGB underglow
 
 
 # Optimize size but this may cause error "relocation truncated to fit"
 #EXTRALDFLAGS = -Wl,--relax
+
+# Extra features
+ifeq (yes, $(strip $(UNDERGLOW_ENABLE)))
+	SRC += \
+		rgb_anim.c \
+		light_ws2812.c
+	OPT_DEFS += -DUNDERGLOW_ENABLE
+endif
 
 # Search Path
 VPATH += $(TARGET_DIR)
