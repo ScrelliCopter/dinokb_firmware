@@ -78,9 +78,6 @@ void action_function(keyrecord_t* record, uint8_t id, uint8_t opt)
 	else if (id == ACTION_GRAVE_TOGGLE)
 	{
 		if (record->event.pressed)
-		{
-			toggleGrv = !toggleGrv;
-			clue_led_set(toggleGrv ? CLUE_LED_MASK(CLUE_LED_INSERT) : 0);
-		}
+			clue_led_set((toggleGrv = !toggleGrv) ? _BV(CLUE_LED_INSERT) : 0);
 	}
 }

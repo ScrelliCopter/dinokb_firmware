@@ -9,46 +9,40 @@ void hook_early_init(void)
 {
 	// JTAG disable for PORT F
 	// write JTD bit twice within four cycles
-	MCUCR |= 1 << JTD;
-	MCUCR |= 1 << JTD;
+	MCUCR |= _BV(JTD);
+	MCUCR |= _BV(JTD);
 
 	led_init_ports();
 }
 
 
-#define USB_LED_CAPS_LOCK_ON  (PORTB |=  (1 << 4))
-#define USB_LED_CAPS_LOCK_OFF (PORTB &= ~(1 << 4))
-
-#define CAPSLOCK_BIT CLUE_LED_MASK(USB_LED_CAPS_LOCK)
+#define USB_LED_CAPS_LOCK_ON  (PORTB |=  _BV(4))
+#define USB_LED_CAPS_LOCK_OFF (PORTB &= ~_BV(4))
 
 void led_set(uint8_t state)
 {
-	state & CAPSLOCK_BIT ? USB_LED_CAPS_LOCK_ON : USB_LED_CAPS_LOCK_OFF;
+	state & _BV(USB_LED_CAPS_LOCK) ? USB_LED_CAPS_LOCK_ON : USB_LED_CAPS_LOCK_OFF;
 }
 
-#define ESCAPE_BIT CLUE_LED_MASK(CLUE_LED_ESCAPE)
-#define INSERT_BIT CLUE_LED_MASK(CLUE_LED_INSERT)
-#define ARROWS_BIT CLUE_LED_MASK(CLUE_LED_ARROWS)
-
-#define CLUE_LED_ESCAPE_ON  (PORTD |=  (1 << 6))
-#define CLUE_LED_ESCAPE_OFF (PORTD &= ~(1 << 6))
-#define CLUE_LED_INSERT_ON  (PORTB |=  (1 << 7))
-#define CLUE_LED_INSERT_OFF (PORTB &= ~(1 << 7))
-#define CLUE_LED_ARROWS_ON  (PORTD |=  (1 << 4))
-#define CLUE_LED_ARROWS_OFF (PORTD &= ~(1 << 4))
+#define CLUE_LED_ESCAPE_ON  (PORTD |=  _BV(6))
+#define CLUE_LED_ESCAPE_OFF (PORTD &= ~_BV(6))
+#define CLUE_LED_INSERT_ON  (PORTB |=  _BV(7))
+#define CLUE_LED_INSERT_OFF (PORTB &= ~_BV(7))
+#define CLUE_LED_ARROWS_ON  (PORTD |=  _BV(4))
+#define CLUE_LED_ARROWS_OFF (PORTD &= ~_BV(4))
 
 void clue_led_set(clue_led_state state)
 {
-	state & ESCAPE_BIT ? CLUE_LED_ESCAPE_ON : CLUE_LED_ESCAPE_OFF;
-	state & INSERT_BIT ? CLUE_LED_INSERT_ON : CLUE_LED_INSERT_OFF;
-	state & ARROWS_BIT ? CLUE_LED_ARROWS_ON : CLUE_LED_ARROWS_OFF;
+	state & _BV(CLUE_LED_ESCAPE) ? CLUE_LED_ESCAPE_ON : CLUE_LED_ESCAPE_OFF;
+	state & _BV(CLUE_LED_INSERT) ? CLUE_LED_INSERT_ON : CLUE_LED_INSERT_OFF;
+	state & _BV(CLUE_LED_ARROWS) ? CLUE_LED_ARROWS_ON : CLUE_LED_ARROWS_OFF;
 }
 
 void led_init_ports(void)
 {
 	// Setup LED pins as outputs
-	DDRB |= (1 << 4) | (1 << 7); // Caps lock, Insert
-	DDRD |= (1 << 6) | (1 << 4); // Escape, Arrow cluster
+	DDRB |= _BV(4) | _BV(7); // Caps lock, Insert
+	DDRD |= _BV(6) | _BV(4); // Escape, Arrow cluster
 
 	// Set LED pins low
 	USB_LED_CAPS_LOCK_OFF;
